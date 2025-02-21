@@ -15,7 +15,9 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"vivaxy.vscode-conventional-commits"
+				"vivaxy.vscode-conventional-commits",
+				"Gruntfuggly.todo-tree",
+				"yzhang.markdown-all-in-one"
 			]
 		}
 	}
