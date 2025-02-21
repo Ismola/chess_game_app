@@ -1,40 +1,29 @@
-name: 🔄 Actualizar submódulos cuando cambien
+name: Update Submodules and Commit
 
 on:
-  repository_dispatch:
-    types: [submodule_update]
+  workflow_dispatch:
 
 jobs:
   update-submodules:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: 📥 Clonar repo padre con submódulos
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          submodules: true
-          token: ${{ secrets.PAT }}
+          submodules: 'recursive'
 
-      - name: 🔧 Configurar git para autenticación
+      - name: Update submodules
+        run: git submodule update --init --recursive
+
+      - name: Configure Git
         run: |
-          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf "git@github.com"
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
 
-      - name: 🔄 Actualizar la referencia del submódulo manualmente
-        run: |
-          git submodule update --init --recursive
-
-          # Reemplazar el submódulo con el último commit
-          git submodule update --remote --merge
-
-          # Si aún hay conflictos, podemos intentar limpiar el submódulo
-          git submodule foreach --recursive 'git fetch --all && git checkout origin/main'
-
-      - name: 📌 Agregar cambios y hacer commit
+      - name: Commit changes
         run: |
           git add .
-          if git diff --cached --quiet; then
-            echo "No hay cambios en los submódulos, se detiene el proceso."
-            exit 0
-          fi
-          git commit -m "🔄 Actualización automática de submódulos"
-          git push origin main
+          git commit -m "Update submodules"
+          git push origin HEAD
+
