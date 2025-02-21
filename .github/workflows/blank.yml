@@ -1,0 +1,29 @@
+name: Actualizar submódulos
+
+on:
+  push:
+    branches:
+      - main  # Cambia esto por la rama que uses
+  workflow_dispatch:  # Permite ejecutarlo manualmente si es necesario
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar repo padre con submódulos
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          token: ${{ secrets.PAT }}
+
+      - name: 🔄 Actualizar submódulos
+        run: |
+          git submodule update --remote --merge
+          git add .
+          if git diff --cached --quiet; then
+            echo "No hay cambios en los submódulos, se detiene el proceso."
+            exit 0
+          fi
+          git commit -m "🔄 Actualización automática de submódulos"
+          git push origin main
