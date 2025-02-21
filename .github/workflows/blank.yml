@@ -19,13 +19,15 @@ jobs:
         run: |
           git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf "git@github.com"
 
-      - name: 🔄 Restablecer submódulos y actualizar
+      - name: 🔄 Actualizar la referencia del submódulo manualmente
         run: |
-          # Inicializar submódulos
           git submodule update --init --recursive
-          
-          # Hacer pull de los submódulos y forzar la actualización
-          git submodule foreach --recursive 'git fetch --all && git reset --hard origin/main && git pull origin main'
+
+          # Reemplazar el submódulo con el último commit
+          git submodule update --remote --merge
+
+          # Si aún hay conflictos, podemos intentar limpiar el submódulo
+          git submodule foreach --recursive 'git fetch --all && git checkout origin/main'
 
       - name: 📌 Agregar cambios y hacer commit
         run: |
