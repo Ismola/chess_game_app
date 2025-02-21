@@ -1,4 +1,4 @@
-name: Update Submodules and Commit 2
+name: Update Submodules and Commit 3
 
 on:
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
 
       - name: Pull latest changes in submodules
         run: |
-          git submodule foreach --recursive "git config pull.rebase false && git pull origin main"
+          git submodule foreach --recursive "git config pull.rebase false && git pull origin main --allow-unrelated-histories"
 
       - name: Configure Git
         run: |
