@@ -13,8 +13,17 @@ jobs:
         with:
           submodules: 'recursive'
 
+      - name: Deinit submodules
+        run: git submodule deinit -f .
+
       - name: Update submodules
         run: git submodule update --init --recursive
+
+      - name: Reset submodules
+        run: git submodule foreach --recursive git reset --hard
+
+      - name: Pull latest changes in submodules
+        run: git submodule foreach --recursive git pull origin main
 
       - name: Configure Git
         run: |
@@ -24,6 +33,5 @@ jobs:
       - name: Commit changes
         run: |
           git add .
-          git commit -m "Update submodules"
+          git commit -m "Update submodules and sync"
           git push origin HEAD
-
