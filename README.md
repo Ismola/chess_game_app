@@ -5,7 +5,6 @@ TODO: Docker para empaquetar aplicacion
 TODO: Subida documentacion
 
 ```bash
-git submodule deinit -f .
 git submodule update --init --recursive
 git submodule foreach --recursive git reset --hard
 git submodule foreach --recursive git pull origin main
