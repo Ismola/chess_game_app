@@ -1,10 +1,8 @@
-name: Actualizar submódulos
+name: 🔄 Actualizar submódulos cuando cambien
 
 on:
-  push:
-    branches:
-      - main  # Cambia esto por la rama que uses
-  workflow_dispatch:  # Permite ejecutarlo manualmente si es necesario
+  repository_dispatch:
+    types: [submodule_update]
 
 jobs:
   update-submodules:
@@ -17,9 +15,14 @@ jobs:
           submodules: true
           token: ${{ secrets.PAT }}
 
-      - name: 🔄 Actualizar submódulos
+      - name: 🔄 Restablecer y actualizar submódulos
         run: |
-          git submodule update --remote --merge
+          git submodule foreach --recursive git reset --hard
+          git submodule update --init --recursive
+          git submodule foreach --recursive git pull origin main
+
+      - name: 📌 Agregar cambios y hacer commit
+        run: |
           git add .
           if git diff --cached --quiet; then
             echo "No hay cambios en los submódulos, se detiene el proceso."
