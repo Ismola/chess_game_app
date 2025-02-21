@@ -15,11 +15,17 @@ jobs:
           submodules: true
           token: ${{ secrets.PAT }}
 
-      - name: 🔄 Restablecer y actualizar submódulos
+      - name: 🔧 Configurar git para autenticación
         run: |
-          git submodule foreach --recursive git reset --hard
+          git config --global url."https://${{ secrets.GITHUB_TOKEN }}@github.com".insteadOf "git@github.com"
+
+      - name: 🔄 Restablecer submódulos y actualizar
+        run: |
+          # Inicializar submódulos
           git submodule update --init --recursive
-          git submodule foreach --recursive git pull origin main
+          
+          # Hacer pull de los submódulos y forzar la actualización
+          git submodule foreach --recursive 'git fetch --all && git reset --hard origin/main && git pull origin main'
 
       - name: 📌 Agregar cambios y hacer commit
         run: |
