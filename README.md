@@ -1,8 +1,8 @@
 # CHESS GAME APP
 
-TODO: cambiar github action para que se actualice las referencias de los submodulos automaticamente cuando se hace commit en algun submodulo
-TODO: Docker para empaquetar aplicacion
-TODO: Subida documentacion
+* TODO: cambiar github action para que se actualice las referencias de los submodulos automaticamente cuando se hace commit en algun submodulo
+* TODO: Docker para empaquetar aplicacion
+* TODO: Subida documentacion
 
 ```bash
 git submodule update --init --recursive
