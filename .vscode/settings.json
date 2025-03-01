@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "Readme",
         "Sub Modules",
-        "Docker"
+        "Docker",
+        "github action"
     ]
 }
