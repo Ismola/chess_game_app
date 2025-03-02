@@ -24,11 +24,10 @@ jobs:
         with:
           submodules: true  # Asegura que los submódulos sean descargados
 
-      - name: Update submodules recursively
-        run: |
-          git submodule update --init --recursive
-          git submodule foreach --recursive git reset --hard
-          git submodule foreach --recursive git pull origin main
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
